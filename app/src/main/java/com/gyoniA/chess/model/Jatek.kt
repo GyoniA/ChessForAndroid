@@ -42,61 +42,7 @@ class Jatek : Thread() {
         } else {
             feketeOra.Indit()
             feherOra.Szunet()
-        }/*
-        var menuItem: javax.swing.JMenuItem = javax.swing.JMenuItem(
-            "Ment�s",
-            javax.swing.UIManager.getIcon("FileView.floppyDriveIcon")
-        )
-        menuItem.setActionCommand("Mentes")
-        val mal = j.MenuActionListener()
-        menuItem.addActionListener(mal)
-        menu.add(menuItem)
-        menuItem = javax.swing.JMenuItem(
-            "Visszat�lt�s",
-            javax.swing.UIManager.getIcon("FileView.hardDriveIcon")
-        )
-        menuItem.setActionCommand("Visszatoltes")
-        menuItem.addActionListener(mal)
-        menu.add(menuItem)
-        val jal = j.JatekmodActionListener()
-        menu.addSeparator()
-        val group: javax.swing.ButtonGroup = javax.swing.ButtonGroup()
-        var rbMenuItem: javax.swing.JRadioButtonMenuItem
-        rbMenuItem = javax.swing.JRadioButtonMenuItem("Ember ember ellen")
-        rbMenuItem.setActionCommand("0")
-        rbMenuItem.addActionListener(jal)
-        if (j.jatekmod == 0) {
-            rbMenuItem.setSelected(true)
         }
-        group.add(rbMenuItem)
-        menu.add(rbMenuItem)
-        rbMenuItem = javax.swing.JRadioButtonMenuItem(
-            "Ember g�p ellen",
-            javax.swing.UIManager.getIcon("FileView.computerIcon")
-        )
-        rbMenuItem.setActionCommand("1")
-        rbMenuItem.addActionListener(jal)
-        if (j.jatekmod == 1) {
-            rbMenuItem.setSelected(true)
-        }
-        group.add(rbMenuItem)
-        menu.add(rbMenuItem)
-        rbMenuItem = javax.swing.JRadioButtonMenuItem(
-            "G�p g�p ellen",
-            javax.swing.UIManager.getIcon("FileView.computerIcon")
-        )
-        rbMenuItem.setActionCommand("2")
-        rbMenuItem.addActionListener(jal)
-        if (j.jatekmod == 2) {
-            rbMenuItem.setSelected(true)
-        }
-        group.add(rbMenuItem)
-        menu.add(rbMenuItem)
-        tb.setJMenuBar(menuBar)
-        tb.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE)
-        tb.setResizable(false)
-        tb.pack()
-        tb.setVisible(true)*///TODO change to menu
     }
 
     fun OnTouch(tX: Int, tY: Int) {
@@ -185,12 +131,6 @@ class Jatek : Thread() {
                  e3.printStackTrace()
              }
          }
-     }
- }*/
-/*
- private inner class JatekmodActionListener : java.awt.event.ActionListener {
-     override fun actionPerformed(e: java.awt.event.ActionEvent) {
-         jatekmod = e.getActionCommand().toInt()
      }
  }*/
 

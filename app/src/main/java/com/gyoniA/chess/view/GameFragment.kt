@@ -39,7 +39,7 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        image = BitmapFactory.decodeResource(context?.resources!!, com.GyoniA.chess.R.mipmap.chess_pieces)
+        image = BitmapFactory.decodeResource(context?.resources!!, R.mipmap.chess_pieces)
         binding.chessView.setImage(image)
         binding.chessView.changeGameMode(arguments?.getInt("gameMode") ?: 0)
         (context as MainActivity).setDefaultGameMode(arguments?.getInt("gameMode") ?: 0)

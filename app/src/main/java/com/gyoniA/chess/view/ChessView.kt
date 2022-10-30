@@ -197,13 +197,11 @@ class ChessView : View {
     fun checkEndGame(res: Int = -10) {
         if (res != -10) {
             if (res != 2) {
-                //val host = FragmentManager.findFragment<GameFragment>(this)
                 host?.endGame(res)
             }
         } else {
             val result = game.VegeVanMar()
             if (result != 2) {
-                //val host = FragmentManager.findFragment<GameFragment>(this)
                 host?.endGame(result)
             }
         }

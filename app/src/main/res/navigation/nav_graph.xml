@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/menuFragment">
+    app:startDestination="@id/startMenuFragment">
 
     <fragment
         android:id="@+id/menuFragment"
@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/loadGameFragment"
-        android:name="com.GyoniA.chess.LoadGameFragment"
+        android:name="com.gyoniA.chess.LoadGameFragment"
         android:label="fragment_load_game"
         tools:layout="@layout/fragment_load_game" >
         <action

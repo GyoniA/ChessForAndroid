@@ -1,4 +1,4 @@
-package com.GyoniA.chess
+package com.gyoniA.chess
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.GyoniA.chess.R
 import com.GyoniA.chess.databinding.FragmentLoadGameBinding
 
 class LoadGameFragment : Fragment() {
@@ -24,7 +25,7 @@ class LoadGameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonLoad.setOnClickListener {
-            findNavController().navigate(R.id.action_startMenuFragment_to_menuFragment)
+            findNavController().navigate(R.id.action_loadGameFragment_to_menuFragment)
         }
     }
 }
