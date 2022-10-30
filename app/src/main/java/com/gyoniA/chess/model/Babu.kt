@@ -1,7 +1,5 @@
 package com.gyoniA.chess.model
 
-import android.graphics.Bitmap
-import android.media.Image
 import java.io.Serializable
 import java.util.*
 
@@ -37,15 +35,15 @@ abstract class Babu(x: Int, y: Int, iFeherE: Boolean, protected var tab: Tabla, 
     }
 
     //visszadja a babu kepet, amit ki kell rajzolni
-    fun GetImage(): Bitmap? {
-        return tab.GetKep(KepIndex)
+    fun GetImageIndex(): Int {
+        return KepIndex
     }
 
     //ha nem lehet sehova se lepni hamissal ter vissza, beallitja a lepesiLehetosegek listat
     abstract fun HovaLephet(): Boolean
 
     open fun Lepes(ujX: Int, ujY: Int): Boolean {
-        val celpont: Point = Point(ujX, ujY)
+        val celpont = Point(ujX, ujY)
         if (lepesiLehetosegek.contains(celpont)) { //megnezi hogy tud-e lepni a megadott helyre
             if (feherE) {
                 tab.GetFeherBabuk()[celpont] = this

@@ -1,16 +1,23 @@
 package com.gyoniA.chess.view
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
+import android.widget.TextView
+import androidx.core.view.doOnAttach
+import androidx.core.view.doOnLayout
+import androidx.fragment.app.FragmentManager
+import com.GyoniA.chess.R
 import com.gyoniA.chess.model.Jatek
 import com.gyoniA.chess.model.Point
 import java.lang.Integer.min
+import kotlin.math.roundToInt
+
 
 class ChessView : View {
     private val paintBg = Paint()
@@ -21,7 +28,20 @@ class ChessView : View {
     private val paintPossible = Paint()
     private val paintPossibleHit = Paint()
 
+    private val startingTime = 300
+
+    private var image: Bitmap? = null
+    private var chessPieceBitmaps: Array<Bitmap?> = Array(12) { null }
+
+    var whoseTurn: TextView? = null
+    private var whiteTimeView: TextView? = null
+    private var blackTimeView: TextView? = null
+
     private var game: Jatek
+
+    var gameMode: Int = 0
+
+    private var host: GameFragment? = null
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -50,35 +70,86 @@ class ChessView : View {
         paintLine.strokeWidth = 5F
 
         game = Jatek()
-        game.jatekmod = 1 //TODO add mode selection
-        //val options = arrayOf<Any>("Ember ember ellen", "Ember g�p ellen", "G�p g�p ellen")
-        //TODO add menu bar
+        game.jatekmod = gameMode
+        game.view = this
         game.start()
+        doOnAttach { host = FragmentManager.findFragment<GameFragment>(this) }
     }
+
+    private fun splitBitmap(bitmap: Bitmap, xCount: Int, yCount: Int): Array<Array<Bitmap?>> {
+        // Allocate a two dimensional array to hold the individual images.
+        val bitmaps = Array(xCount) {
+            arrayOfNulls<Bitmap>(
+                yCount
+            )
+        }
+        // Divide the original bitmap width by the desired vertical column count
+        val width: Int = bitmap.width / xCount
+        // Divide the original bitmap height by the desired horizontal row count
+        val height: Int = bitmap.height / yCount
+        // Loop the array and create bitmaps for each coordinate
+        for (x in 0 until xCount) {
+            for (y in 0 until yCount) {
+                // Create the sliced bitmap
+                bitmaps[x][y] = Bitmap.createBitmap(bitmap, x * width, y * height, width, height)
+            }
+        }
+        // Return the array
+        return bitmaps
+    }
+
+    fun setImage(bitmap: Bitmap) {
+        image = bitmap
+
+        doOnLayout {
+            val splitMap = splitBitmap(bitmap, 6, 2)
+            var i = 0
+            for (map in splitMap) {
+                for (piece in map) {
+                    chessPieceBitmaps[i] = Bitmap.createScaledBitmap(piece!!, (width.toFloat() / 8).roundToInt(), (height.toFloat() / 8).roundToInt(), false)
+                    i++
+                }
+            }
+            invalidate()
+        }
+    }
+
+    fun setWhiteTimeView(whiteTime: TextView) {
+        whiteTimeView = whiteTime
+        whiteTime.text = context?.getString(R.string.whitePlayersTime, startingTime)
+        game.setWhiteTimeView(whiteTime)
+    }
+
+    fun setBlackTimeView(blackTime: TextView) {
+        blackTimeView = blackTime
+        blackTime.text = context?.getString(R.string.blackPlayersTime, startingTime)
+        game.setBlackTimeView(blackTime)
+    }
+
     override fun onDraw(canvas: Canvas) {
         canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), paintBg)
-
         drawBoard(canvas)
     }
 
     private fun drawBoard(canvas: Canvas) {
-        val widthFloat: Float = width.toFloat()
-        val heightFloat: Float = height.toFloat()
-
-        canvas.drawRect(0F, 0F, widthFloat, heightFloat, paintLine)//TODO remove if not needed
 
         var paintForBackground: Paint?
-        var widthOfSquare = widthFloat / 8
-        var heightOfSquare = heightFloat / 8
+        val widthOfSquare = width.toFloat() / 8
+        val heightOfSquare = height.toFloat() / 8
+
+        var left: Float //x coord of top left corner
+        var top: Float //y coord of top left corner
 
         for (i in 0..7) {
             for (j in 0..7) {
+                left = i * widthOfSquare
+                top = j * heightOfSquare
                 if ((i + j) % 2 == 0) {
                     paintForBackground = paintLight
                 } else {
                     paintForBackground = paintDark
                 }
-                canvas.drawRect(i*widthOfSquare, j*heightOfSquare, widthOfSquare, heightOfSquare, paintForBackground)
+                canvas.drawRect(left, top, left+widthOfSquare, top+heightOfSquare, paintForBackground)
 
                 var b = game.tab!!.GetFeherBabuk()[Point(i, j)]
                 if (b == null) {
@@ -87,23 +158,23 @@ class ChessView : View {
                 if (b != null) {
                     if (b === game.kivalasztott) {
                         paintForBackground = paintSelected
-                        canvas.drawCircle(i*widthOfSquare + widthOfSquare/2, j*heightOfSquare + heightOfSquare/2, widthOfSquare/2, paintForBackground)
+                        canvas.drawCircle(left + widthOfSquare/2, top + heightOfSquare/2, widthOfSquare/2, paintForBackground)
                     } else if (game.kivalasztott != null && game.kivalasztott!!.GetUtesiLehetosegek()
                             .contains(
                                 Point(i, j)
                             )
                     ) {
                         paintForBackground = paintPossibleHit
-                        canvas.drawCircle(i*widthOfSquare + widthOfSquare/2, j*heightOfSquare + heightOfSquare/2, widthOfSquare/2, paintForBackground)
+                        canvas.drawCircle(left + widthOfSquare/2, top + heightOfSquare/2, widthOfSquare/2, paintForBackground)
                     }
-                    canvas.drawBitmap(b.GetImage()!!, i*widthOfSquare, j*heightOfSquare, paintForBackground)//TODO check if coordinates of bitmap are correct
+                    canvas.drawBitmap(chessPieceBitmaps[b.GetImageIndex()]!!, left, top, paintForBackground)
                 } else if (game.kivalasztott != null && game.kivalasztott!!.GetLepesiLehetosegek()
                         .contains(
                             Point(i, j)
                         )
                 ) {
                     paintForBackground = paintPossible
-                    canvas.drawCircle(i*widthOfSquare + widthOfSquare/2, j*heightOfSquare + heightOfSquare/2, widthOfSquare/4, paintForBackground)
+                    canvas.drawCircle(left + widthOfSquare/2, top + heightOfSquare/2, widthOfSquare/4, paintForBackground)
                 }
             }
         }
@@ -123,40 +194,36 @@ class ChessView : View {
         setMeasuredDimension(d, d)
     }
 
-    fun checkEndGame() {
-        var result = game.VegeVanMar()
-        when (result) {
-            -1 -> Toast.makeText(context, "Black won!", Toast.LENGTH_SHORT).show()
-                /*val host = context as GameActivity
-                host.endGame(result)*/
-                //TODO implement endGame in GameActivity
-
-            0 -> Toast.makeText(context, "Draw!", Toast.LENGTH_SHORT).show()
-                /*val host = context as GameActivity
-                host.endGame(result)*/
-                //TODO implement endGame in GameActivity
-
-            1 -> Toast.makeText(context, "White won!", Toast.LENGTH_SHORT).show()
-                /*val host = context as GameActivity
-                host.endGame(result)*/
-                //TODO implement endGame in GameActivity
+    fun checkEndGame(res: Int = -10) {
+        if (res != -10) {
+            if (res != 2) {
+                //val host = FragmentManager.findFragment<GameFragment>(this)
+                host?.endGame(res)
+            }
+        } else {
+            val result = game.VegeVanMar()
+            if (result != 2) {
+                //val host = FragmentManager.findFragment<GameFragment>(this)
+                host?.endGame(result)
+            }
         }
+
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (game.megyAJatek) {
+                checkEndGame()
+                if (!game.megyAJatek) {
                     return true
                 }
-
                 val tX: Int = (event.x / (width / 8)).toInt()
                 val tY: Int = (event.y / (height / 8)).toInt()
                 game.OnTouch(tX, tY)
                 if (game.feherJonE) {
-                    //kijon = "It's White's turn" TODO change to text view updating
+                    whoseTurn?.text = context.getString(R.string.whitePlayersTurn)
                 } else {
-                    //kijon = "It's Black's turn"  TODO change to text view updating
+                    whoseTurn?.text  = context.getString(R.string.blackPlayersTurn)
                 }
                 invalidate()
                 checkEndGame()
@@ -165,5 +232,21 @@ class ChessView : View {
             }
             else -> return super.onTouchEvent(event)
         }
+    }
+
+    fun changeGameMode(mode: Int) {
+        game.jatekmod = mode
+    }
+
+    fun updateWhiteTimeView(string: String?) {
+        host?.runUIOperation(Runnable {
+            whiteTimeView?.text = string
+        })
+    }
+
+    fun updateBlackTimeView(string: String?) {
+        host?.runUIOperation(Runnable {
+            blackTimeView?.text = string
+        })
     }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_save"
+        android:title="@string/save" />
+    <item android:id="@+id/action_load"
+        android:title="@string/load" />
+    <group android:id="@+id/mode_group"
+        android:checkableBehavior="single">
+        <item android:id="@+id/action_pvp"
+            android:title="@string/PvP"/>
+        <item android:id="@+id/action_pvai"
+            android:title="@string/PvAI"/>
+        <item android:id="@+id/action_aivai"
+            android:title="@string/AIvAI"/>
+    </group>
+</menu>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/menuFragment">
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.gyoniA.chess.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menuFragment_to_gameFragment0"
+            app:destination="@id/gameFragment">
+            <argument
+                android:name="gameMode"
+                app:argType="integer"
+                android:defaultValue="0"/>
+        </action>
+        <action
+            android:id="@+id/action_menuFragment_to_gameFragment1"
+            app:destination="@id/gameFragment">
+            <argument
+                android:name="gameMode"
+                app:argType="integer"
+                android:defaultValue="1"/>
+        </action>
+        <action
+            android:id="@+id/action_menuFragment_to_gameFragment2"
+            app:destination="@id/gameFragment">
+            <argument
+                android:name="gameMode"
+                app:argType="integer"
+                android:defaultValue="2"/>
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.gyoniA.chess.view.GameFragment"
+        android:label="GameFragment" >
+        <action
+            android:id="@+id/action_gameFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <argument
+            android:name="gameMode"
+            app:argType="integer"
+            android:defaultValue="0"/>
+    </fragment>
+    <fragment
+        android:id="@+id/startMenuFragment"
+        android:name="com.gyoniA.chess.StartMenuFragment"
+        android:label="fragment_start_menu"
+        tools:layout="@layout/fragment_start_menu" >
+        <action
+            android:id="@+id/action_startMenuFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_startMenuFragment_to_loadGameFragment"
+            app:destination="@id/loadGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loadGameFragment"
+        android:name="com.GyoniA.chess.LoadGameFragment"
+        android:label="fragment_load_game"
+        tools:layout="@layout/fragment_load_game" >
+        <action
+            android:id="@+id/action_loadGameFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+</navigation>

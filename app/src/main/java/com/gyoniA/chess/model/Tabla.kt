@@ -1,31 +1,16 @@
 package com.gyoniA.chess.model
 
-import android.graphics.Bitmap
-import java.io.File
 import java.io.IOException
 import java.io.ObjectInputStream
 import java.io.Serializable
 import java.util.*
+
 
 class Tabla(protected var fileNeve: String) : Serializable {
     protected var feherBabuk = HashMap<Point, Babu>()
     protected var feketeBabuk = HashMap<Point, Babu>()
     protected var feherKiraly: Kiraly? = null
     protected var feketeKiraly: Kiraly? = null
-
-    @Transient
-    protected var kepek = arrayOfNulls<Bitmap>(12)
-
-    init {
-        var kep: Image? = null
-        try {
-            kep = null
-            //TODO kep betöltése
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        kepek = arrayOfNulls(12)
-    }
 
     fun BabukAlaphelyzetbe() {
         feherBabuk.clear()
@@ -62,10 +47,6 @@ class Tabla(protected var fileNeve: String) : Serializable {
         }
     }
 
-    fun GetKep(index: Int): Bitmap? {
-        return kepek[index]
-    }
-
     fun GetFeherBabuk(): HashMap<Point, Babu> {
         return feherBabuk
     }
@@ -87,7 +68,7 @@ class Tabla(protected var fileNeve: String) : Serializable {
                 for (b in feketeBabuk.values) {
                     b.HovaLephet()
                     for (p in b.GetUtesiLehetosegek()) {
-                        if (p == feherKiraly!!.GetPozicio()) {
+                        if (p.equals(feherKiraly!!.GetPozicio())) {
                             legalis = false
                         }
                     }
@@ -96,7 +77,7 @@ class Tabla(protected var fileNeve: String) : Serializable {
                 for (b in feherBabuk.values) {
                     b.HovaLephet()
                     for (p in b.GetUtesiLehetosegek()) {
-                        if (p == feketeKiraly!!.GetPozicio()) {
+                        if (p.equals(feketeKiraly!!.GetPozicio())) {
                             legalis = false
                         }
                     }
@@ -120,7 +101,7 @@ class Tabla(protected var fileNeve: String) : Serializable {
                 for (b in feketeBabuk.values) {
                     b.HovaLephet()
                     for (p in b.GetUtesiLehetosegek()) {
-                        if (p == feherKiraly!!.GetPozicio()) {
+                        if (p.equals(feherKiraly!!.GetPozicio())) {
                             legalis = false
                         }
                     }
@@ -129,7 +110,7 @@ class Tabla(protected var fileNeve: String) : Serializable {
                 for (b in feherBabuk.values) {
                     b.HovaLephet()
                     for (p in b.GetUtesiLehetosegek()) {
-                        if (p == feketeKiraly!!.GetPozicio()) {
+                        if (p.equals(feketeKiraly!!.GetPozicio())) {
                             legalis = false
                         }
                     }
@@ -196,13 +177,6 @@ class Tabla(protected var fileNeve: String) : Serializable {
     @Throws(ClassNotFoundException::class, IOException::class)
     private fun readObject(aInputStream: ObjectInputStream) {
         aInputStream.defaultReadObject()
-        var kep: Image? = null
-        try {
-            kep = null
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        kepek = arrayOfNulls(12)
     }
 
     companion object {

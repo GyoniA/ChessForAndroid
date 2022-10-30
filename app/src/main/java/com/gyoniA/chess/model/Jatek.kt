@@ -1,9 +1,11 @@
 package com.gyoniA.chess.model
 
-import com.gyoniA.chess.model.Jatek.*
-import java.io.*
+import android.widget.TextView
+import com.gyoniA.chess.view.ChessView
 
 class Jatek : Thread() {
+    var view:ChessView? = null
+
     var tab: Tabla? = null
 
     var kivalasztott: Babu? = null
@@ -14,11 +16,12 @@ class Jatek : Thread() {
 
     @Volatile
     var jatekmod = 0
-    private var kijon: String? = null//TODO change to reference to text-field
-    var feherOra: Ora? = null
-    private var feherIdo: String? = null//TODO change to reference to text-field
-    var feketeOra: Ora? = null
-    private var feketeIdo: String? = null//TODO change to reference to text-field
+    var feherOra: Ora
+    @Volatile
+    var whiteTV: TextView? = null
+    var feketeOra: Ora
+    @Volatile
+    var blackTV: TextView? = null
 
     @Volatile
     var megyAJatek = false
@@ -26,39 +29,20 @@ class Jatek : Thread() {
     private var rob2: RobotJatekos? = null
 
     init {
-        jatekmod = 1 //TODO add mode selection
-        //val options = arrayOf<Any>("Ember ember ellen", "Ember g�p ellen", "G�p g�p ellen")
-        tab = Tabla("SakkBabukPlaceholder.png")
+        jatekmod = 0
+        tab = Tabla("chess_pieces.png")
         tab!!.BabukAlaphelyzetbe()
-        //j.tab = new Tabla("RandomSakkIkonok.png");
-        val tarolo: String? = null //javax.swing.JPanel(java.awt.BorderLayout()) TODO change to containing fragment/view
-        val sakkPanel: String? //TODO remove if not needed
-        //sakkPanel.addMouseListener(j.EgerListener()) TODO add touch listener
-        //feherIdo = "Feher j�t�kos ideje: 30"
-        //feketeIdo = "Fekete j�t�kos ideje: 30"/*
-         //feherIdo.setEditable(false)
-         //feketeIdo.setEditable(false)*/
-        feherOra = Ora(true, 300, this, feherIdo!!)
-        feketeOra = Ora(false, 300, this, feketeIdo!!)
-        feherOra!!.start()
-        feketeOra!!.start()
+        feherOra = Ora(true, 300, this)
+        feketeOra = Ora(false, 300, this)
+        feherOra.start()
+        feketeOra.start()
         if (feherJonE) {
-            kijon = "It's White's turn"
-            feherOra!!.Indit()
-            feketeOra!!.Szunet()
+            feherOra.Indit()
+            feketeOra.Szunet()
         } else {
-            kijon = "It's Black's turn"
-            feketeOra!!.Indit()
-            feherOra!!.Szunet()
-        }
-        //alsoSzovegPanel.add(j.feherIdo, java.awt.BorderLayout.LINE_START) TODO change these to fragment/view versions
-        //alsoSzovegPanel.add(j.kijon, java.awt.BorderLayout.CENTER)
-        //alsoSzovegPanel.add(j.feketeIdo, java.awt.BorderLayout.LINE_END)
-        //tarolo.add(alsoSzovegPanel, java.awt.BorderLayout.PAGE_END)
-        //tb.add(tarolo)
-        val menu: String? //javax.swing.JMenu = javax.swing.JMenu("Opci�k") TODO change to menu
-        /*val menuBar: javax.swing.JMenuBar = javax.swing.JMenuBar()
-        menuBar.add(menu)
+            feketeOra.Indit()
+            feherOra.Szunet()
+        }/*
         var menuItem: javax.swing.JMenuItem = javax.swing.JMenuItem(
             "Ment�s",
             javax.swing.UIManager.getIcon("FileView.floppyDriveIcon")
@@ -120,13 +104,11 @@ class Jatek : Thread() {
             if (kivalasztott!!.Lepes(tX, tY)) {
                 feherJonE = !feherJonE
                 if (feherJonE) {
-                    //kijon = "A feh�r j�t�kos j�n" TODO change to text view updating
-                    feherOra!!.Indit()
-                    feketeOra!!.Szunet()
+                    feherOra.Indit()
+                    feketeOra.Szunet()
                 } else {
-                    //kijon = "A fekete j�t�kos j�n"  TODO change to text view updating
-                    feketeOra!!.Indit()
-                    feherOra!!.Szunet()
+                    feketeOra.Indit()
+                    feherOra.Szunet()
                 }
             }
             kivalasztott = null
@@ -223,27 +205,26 @@ class Jatek : Thread() {
                      if (!feherJonE) {
                          rob2!!.LepesGeneralas()
                          feherJonE = true
-                         //kijon = "A feh�r j�t�kos j�n" TODO change to text view updating
-                         feherOra!!.Indit()
-                         feketeOra!!.Szunet()
-                         //tb.repaint() TODO change to invalidate view
+                         feherOra.Indit()
+                         feketeOra.Szunet()
+                         view?.invalidate()
+                         view?.checkEndGame()
                          VegeVanMar()
                      }
                  } else {
                      if (feherJonE) {
                          rob1!!.LepesGeneralas()
                          feherJonE = false
-                         //kijon = "A fekete j�t�kos j�n" TODO change to text view updating
-                         feketeOra!!.Indit()
-                         feherOra!!.Szunet()
-                         //tb.repaint() TODO change to invalidate view
+                         feketeOra.Indit()
+                         feherOra.Szunet()
+                         view?.invalidate()
                      } else {
                          rob2!!.LepesGeneralas()
                          feherJonE = true
-                         //kijon = "A feh�r j�t�kos j�n" TODO change to text view updating
-                         feherOra!!.Indit()
-                         feketeOra!!.Szunet()
-                         //tb.repaint() TODO change to invalidate view
+                         feherOra.Indit()
+                         feketeOra.Szunet()
+                         view?.invalidate()
+                         view?.checkEndGame()
                      }
                      VegeVanMar()
                  }
@@ -258,42 +239,48 @@ class Jatek : Thread() {
 
  fun ElfogyottAzIdo(feherE: Boolean) {
      if (feherE) {
-         println("Fekete j�t�kos nyert!\n(elfogyott a feh�r j�t�kos ideje)")
          megyAJatek = false
-         //TODO send popup with: "Fekete j�t�kos nyert!\n(elfogyott a feh�r j�t�kos ideje)"
+         view?.checkEndGame(-1)
      } else {
-         println("Feh�r j�t�kos nyert!\n(elfogyott a fekete j�t�kos ideje)")
          megyAJatek = false
-         //TODO send popup with: "Feh�r j�t�kos nyert!\n(elfogyott a fekete j�t�kos ideje)"
+         view?.checkEndGame(1)
      }
  }
 
  fun VegeVanMar(): Int {
      var allas = tab!!.VesztettE(true)
      if (allas == 1) {
-         feherOra!!.Szunet()
-         feketeOra!!.Szunet()
+         feherOra.Szunet()
+         feketeOra.Szunet()
          megyAJatek = false
          return -1//black won
      } else if (allas == 2) {
-         feherOra!!.Szunet()
-         feketeOra!!.Szunet()
+         feherOra.Szunet()
+         feketeOra.Szunet()
          megyAJatek = false
          return 0//draw
      } else {
          allas = tab!!.VesztettE(false)
          if (allas == 1) {
-             feherOra!!.Szunet()
-             feketeOra!!.Szunet()
+             feherOra.Szunet()
+             feketeOra.Szunet()
              megyAJatek = false
              return 1//white won
          } else if (allas == 2) {
-             feherOra!!.Szunet()
-             feketeOra!!.Szunet()
+             feherOra.Szunet()
+             feketeOra.Szunet()
              megyAJatek = false
              return 0//draw
          }
      }
      return 2//game is not over
  }
+
+    fun setWhiteTimeView(whiteTime: TextView) {
+        whiteTV = whiteTime
+    }
+
+    fun setBlackTimeView(blackTime: TextView) {
+        blackTV = blackTime
+    }
 }

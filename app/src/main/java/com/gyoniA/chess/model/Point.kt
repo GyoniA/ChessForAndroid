@@ -18,4 +18,14 @@ class Point(var x: Int, var y: Int) {
         return y
     }
 
+    override fun hashCode(): Int {
+        return x * 10000 + y
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is Point) {
+            return x == other.x && y == other.y
+        }
+        return super.equals(other)
+    }
 }
