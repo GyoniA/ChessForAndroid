@@ -13,4 +13,12 @@
         <item android:id="@+id/action_aivai"
             android:title="@string/AIvAI"/>
     </group>
+    <group android:id="@+id/texture_group"
+        android:checkableBehavior="single">
+        <item android:id="@+id/action_default_texture"
+            android:title="@string/default_textures"
+            android:checked="true"/>
+        <item android:id="@+id/action_alternate_texture"
+            android:title="@string/alternate_textures"/>
+    </group>
 </menu>

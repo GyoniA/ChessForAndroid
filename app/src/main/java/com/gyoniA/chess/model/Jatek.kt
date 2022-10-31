@@ -30,7 +30,7 @@ class Jatek : Thread() {
 
     init {
         jatekmod = 0
-        tab = Tabla("chess_pieces.png")
+        tab = Tabla()
         tab!!.BabukAlaphelyzetbe()
         feherOra = Ora(true, 300, this)
         feketeOra = Ora(false, 300, this)
@@ -45,8 +45,9 @@ class Jatek : Thread() {
         }
     }
 
-    fun OnTouch(tX: Int, tY: Int) {
+    fun onTouch(tX: Int, tY: Int) {
         if (kivalasztott != null) {
+            kivalasztott!!.HovaLephet()
             if (kivalasztott!!.Lepes(tX, tY)) {
                 feherJonE = !feherJonE
                 if (feherJonE) {
@@ -85,6 +86,7 @@ class Jatek : Thread() {
                 kivalasztott = null
             }
         }
+        view?.invalidate()
     }
 //TODO change to menu item
 
@@ -222,5 +224,41 @@ class Jatek : Thread() {
 
     fun setBlackTimeView(blackTime: TextView) {
         blackTV = blackTime
+    }
+
+    fun backupGame(): GameBackup{
+        return GameBackup(view,
+        tab,
+
+        kivalasztott,
+
+        feherJonE,
+
+        jatekmod,
+        feherOra.ido,
+        whiteTV,
+        feketeOra.ido,
+        blackTV,
+
+        megyAJatek)
+    }
+
+    fun restoreFromBackup(gameBackup: GameBackup){
+        view = gameBackup.view
+        tab = gameBackup.tab
+
+        kivalasztott = gameBackup.kivalasztott
+
+        feherJonE = gameBackup.feherJonE
+
+        jatekmod = gameBackup.jatekmod
+        feherOra = Ora(true, gameBackup.feherOraIdeje, this)
+        whiteTV = gameBackup.whiteTV
+        feketeOra = Ora(false, gameBackup.feherOraIdeje, this)
+        blackTV = gameBackup.blackTV
+
+        megyAJatek = gameBackup.megyAJatek
+        rob1 = RobotJatekos(true, tab!!)
+        rob2 = RobotJatekos(false, tab!!)
     }
 }

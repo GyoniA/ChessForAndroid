@@ -3,14 +3,12 @@ package com.gyoniA.chess.model
 import com.GyoniA.chess.R
 
 
-class Ora(private val feherE: Boolean, private var ido: Int, j: Jatek) :
+class Ora(private val feherE: Boolean, var ido: Int, j: Jatek) :
     Thread() {
-    private var idoBackup: Int
     private var megyAzOra: Boolean
     private val jat: Jatek
 
     init {
-        idoBackup = ido
         jat = j
         if (feherE) {
 
@@ -27,14 +25,6 @@ class Ora(private val feherE: Boolean, private var ido: Int, j: Jatek) :
 
     fun Indit() {
         megyAzOra = true
-    }
-
-    fun IdoMentes() {
-        idoBackup = ido
-    }
-
-    fun IdoVisszaallitas() {
-        ido = idoBackup
     }
 
     override fun run() {

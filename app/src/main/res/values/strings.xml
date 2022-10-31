@@ -18,4 +18,6 @@
     <string name="load_previous_game">Load Previous Game</string>
     <string name="enter_file_name">Enter File Name</string>
     <string name="load_game">Load Game</string>
+    <string name="default_textures">Default Textures</string>
+    <string name="alternate_textures">Alternate Textures</string>
 </resources>

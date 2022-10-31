@@ -6,11 +6,11 @@ import java.util.*
 abstract class Babu(x: Int, y: Int, iFeherE: Boolean, protected var tab: Tabla, k: Int) :
     Serializable {
     var pozicio: Point
-    protected var feherE: Boolean
+    var feherE: Boolean
     var lepettEMar = false
     var lepesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
     var utesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
-    protected var KepIndex: Int
+    var KepIndex: Int
 
     init {
         pozicio = Point(x, y)

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.MenuCompat
 import com.GyoniA.chess.R
 import com.GyoniA.chess.databinding.ActivityMainBinding
 import com.gyoniA.chess.view.GameFragment
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_game, menu)
+        MenuCompat.setGroupDividerEnabled(menu, true);
         gameMode?.let {
             when(gameMode) {
                 0 -> onOptionsItemSelected(menu.findItem(R.id.action_pvp)!!)
@@ -42,11 +44,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
-                //TODO implement save
+                listener?.onSaveGame()
                 true
             }
             R.id.action_load -> {
-                //TODO implement load
+                listener?.onLoadGame()
                 true
             }
 
@@ -68,6 +70,18 @@ class MainActivity : AppCompatActivity() {
                 item.isChecked = true
                 gameMode = 2
                 listener?.onGameModeChanged(2)
+                true
+            }
+
+            R.id.action_default_texture -> {
+                item.isChecked = true
+                listener?.onDefaultTexture()
+                true
+            }
+
+            R.id.action_alternate_texture -> {
+                item.isChecked = true
+                listener?.onAlternateTexture()
                 true
             }
 

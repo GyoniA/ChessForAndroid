@@ -1,9 +1,11 @@
 package com.gyoniA.chess.view
 
+import android.R.attr.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,9 @@ import androidx.navigation.fragment.findNavController
 import com.GyoniA.chess.R
 import com.GyoniA.chess.databinding.FragmentGameBinding
 import com.gyoniA.chess.MainActivity
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 
 
 class GameFragment : Fragment() {
@@ -38,11 +43,11 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        onDefaultTexture()//sets default texture for pieces
 
-        image = BitmapFactory.decodeResource(context?.resources!!, R.mipmap.chess_pieces)
-        binding.chessView.setImage(image)
         binding.chessView.changeGameMode(arguments?.getInt("gameMode") ?: 0)
         (context as MainActivity).setDefaultGameMode(arguments?.getInt("gameMode") ?: 0)
+
         binding.chessView.whoseTurn = binding.textWhoseTurn
         binding.chessView.setWhiteTimeView(binding.textWhitesTime)
         binding.chessView.setBlackTimeView(binding.textBlacksTime)
@@ -68,4 +73,37 @@ class GameFragment : Fragment() {
     fun onGameModeChanged(i: Int) {
         binding.chessView.changeGameMode(i)
     }
+
+    fun onSaveGame() {
+        try {//TODO add file chooser
+            val outputStreamWriter = OutputStreamWriter(context?.openFileOutput("save1.txt", Context.MODE_PRIVATE))
+            outputStreamWriter.write(binding.chessView.getSaveData())
+            outputStreamWriter.close()
+        } catch (e: IOException) {
+            Log.e("Exception", "File write failed: $e")
+        }
+    }
+
+    fun onLoadGame() {
+        try {//TODO add file chooser
+            val inputStreamReader = InputStreamReader(context?.openFileInput("save1.txt"))
+            val saveData = inputStreamReader.readText()
+            binding.chessView.loadFromSaveData(saveData)
+            inputStreamReader.close()
+        } catch (e: IOException) {
+            Log.e("Exception", "File read failed: $e")
+        }
+    }
+
+    fun onDefaultTexture() {
+        image = BitmapFactory.decodeResource(context?.resources!!, R.mipmap.chess_pieces)
+        binding.chessView.setImage(image)
+    }
+
+    fun onAlternateTexture() {
+        image = BitmapFactory.decodeResource(context?.resources!!, R.mipmap.alternate_chess_pieces)
+        binding.chessView.setImage(image)
+    }
+
+
 }

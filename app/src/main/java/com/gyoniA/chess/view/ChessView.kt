@@ -13,6 +13,8 @@ import androidx.core.view.doOnAttach
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentManager
 import com.GyoniA.chess.R
+import com.google.gson.Gson
+import com.gyoniA.chess.model.GameBackup
 import com.gyoniA.chess.model.Jatek
 import com.gyoniA.chess.model.Point
 import java.lang.Integer.min
@@ -140,6 +142,8 @@ class ChessView : View {
         var left: Float //x coord of top left corner
         var top: Float //y coord of top left corner
 
+        game.kivalasztott?.HovaLephet()
+
         for (i in 0..7) {
             for (j in 0..7) {
                 left = i * widthOfSquare
@@ -217,7 +221,7 @@ class ChessView : View {
                 }
                 val tX: Int = (event.x / (width / 8)).toInt()
                 val tY: Int = (event.y / (height / 8)).toInt()
-                game.OnTouch(tX, tY)
+                game.onTouch(tX, tY)
                 if (game.feherJonE) {
                     whoseTurn?.text = context.getString(R.string.whitePlayersTurn)
                 } else {
@@ -246,5 +250,18 @@ class ChessView : View {
         host?.runUIOperation(Runnable {
             blackTimeView?.text = string
         })
+    }
+
+    fun getSaveData(): String {
+        //TODO implement save
+        val gson = Gson()
+        return gson.toJson(game.backupGame())
+    }
+
+    fun loadFromSaveData(data: String) {
+        //TODO implement load
+        val gson = Gson()
+        game.restoreFromBackup(gson.fromJson(data, GameBackup::class.java))
+        invalidate()
     }
 }

@@ -2,10 +2,7 @@ package com.gyoniA.chess.model
 
 import java.util.*
 
-class RobotJatekos(private val feherE: Boolean, private var tab: Tabla) {
-    fun SetTabla(t: Tabla) {
-        tab = t
-    }
+class RobotJatekos(val feherE: Boolean, var tab: Tabla) {
 
     fun LepesGeneralas() {
         val rand = Random()

@@ -6,11 +6,11 @@ import java.io.Serializable
 import java.util.*
 
 
-class Tabla(protected var fileNeve: String) : Serializable {
-    protected var feherBabuk = HashMap<Point, Babu>()
-    protected var feketeBabuk = HashMap<Point, Babu>()
-    protected var feherKiraly: Kiraly? = null
-    protected var feketeKiraly: Kiraly? = null
+class Tabla() : Serializable {
+    var feherBabuk = HashMap<Point, Babu>()
+    var feketeBabuk = HashMap<Point, Babu>()
+    var feherKiraly: Kiraly? = null
+    var feketeKiraly: Kiraly? = null
 
     fun BabukAlaphelyzetbe() {
         feherBabuk.clear()
@@ -56,6 +56,7 @@ class Tabla(protected var fileNeve: String) : Serializable {
     }
 
     fun LepesLegalizalas(temp: Babu) {
+        temp.HovaLephet()
         val tempLepettE = temp.lepettEMar
         val legalisLepesek = LinkedList<Point>()
         for (poz in temp.lepesiLehetosegek) {
