@@ -190,14 +190,6 @@ class Jatek : Thread() {
         return intMap
     }
 
-    fun convertPointMapToStringMap(map: HashMap<Point, Babu>): HashMap<String, Babu> {
-        val stringMap = HashMap<String, Babu>()
-        for (key in map.keys) {
-            stringMap[key.toString()] = map[key]!!
-        }
-        return stringMap
-    }
-
     fun convertIntMapToPointMap(map: HashMap<Int, Babu>): HashMap<Point, Babu> {
         val pointMap = HashMap<Point, Babu>()
         for (key in map.keys) {
@@ -205,27 +197,8 @@ class Jatek : Thread() {
         }
         return pointMap
     }
-
-    fun convertStringToPoint(key: String): Point {
-        val data = key?.substringAfter("(", "")?.substringBefore(")", "")
-        val coordinates = data?.split(",")
-        val x = coordinates!![0].trim().toInt()
-        val y = coordinates!![1].trim().toInt()
-        return Point(x, y)
-    }
-
-    fun convertStringMapToPointMap(map: HashMap<String, Babu>): HashMap<Point, Babu> {
-        val pointMap = HashMap<Point, Babu>()
-        for (key in map.keys) {
-            pointMap[convertStringToPoint(key)] = map[key]!!
-        }
-        return pointMap
-    }
-
     fun backupGame(): GameBackup{
         return GameBackup(
-            //tab?.let { convertPointMapToStringMap(it.feherBabuk) }!!,
-            //tab?.let { convertPointMapToStringMap(it.feketeBabuk) }!!,
             tab?.let { convertPointMapToIntMap(it.feherBabuk) }!!,
             tab?.let { convertPointMapToIntMap(it.feketeBabuk) }!!,
             tab?.feherKiraly,
@@ -244,8 +217,6 @@ class Jatek : Thread() {
 
     fun restoreFromBackup(gameBackup: GameBackup){
         tab = Tabla()
-        //tab!!.feherBabuk = convertStringMapToPointMap(gameBackup.feherBabuk)
-        //tab!!.feketeBabuk = convertStringMapToPointMap(gameBackup.feketeBabuk)
         tab!!.feherBabuk = convertIntMapToPointMap(gameBackup.feherBabuk)
         tab!!.feketeBabuk = convertIntMapToPointMap(gameBackup.feketeBabuk)
         tab!!.feherKiraly = gameBackup.feherKiraly

@@ -17,7 +17,7 @@ fun Point.translate(dx: Int, dy: Int) {
 }
 
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
-open class Babu{
+abstract class Babu{
 
     @Transient @JsonIgnore var tab: Tabla
     var pozicio: Point
@@ -63,9 +63,7 @@ open class Babu{
     }
 
     //ha nem lehet sehova se lepni hamissal ter vissza, beallitja a lepesiLehetosegek listat
-    open fun HovaLephet(): Boolean {
-        return false
-    }
+    abstract fun HovaLephet(): Boolean
 
     open fun Lepes(ujX: Int, ujY: Int): Boolean {
         val celpont = Point(ujX, ujY)
