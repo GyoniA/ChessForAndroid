@@ -3,8 +3,10 @@ package com.gyoniA.chess.model
 import android.graphics.Point
 import java.util.*
 
-class Kiraly(i: Int, j: Int, b: Boolean, tabla: Tabla?, k: Int) :
-    Babu(i, j, b, tabla!!, k) {
+class Kiraly : Babu {
+    constructor(i: Int, j: Int, b: Boolean, tabla: Tabla?, k: Int) : super(i, j, b, tabla!!, k)
+    constructor() : super()
+
     override fun HovaLephet(): Boolean {
         lepesiLehetosegek.clear()
         utesiLehetosegek.clear()

@@ -3,6 +3,8 @@ package com.gyoniA.chess.model
 import android.graphics.Point
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import java.util.*
 
@@ -15,7 +17,7 @@ fun Point.translate(dx: Int, dy: Int) {
 }
 
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
-abstract class Babu{
+open class Babu{
 
     @Transient @JsonIgnore var tab: Tabla
     var pozicio: Point
@@ -61,7 +63,9 @@ abstract class Babu{
     }
 
     //ha nem lehet sehova se lepni hamissal ter vissza, beallitja a lepesiLehetosegek listat
-    abstract fun HovaLephet(): Boolean
+    open fun HovaLephet(): Boolean {
+        return false
+    }
 
     open fun Lepes(ujX: Int, ujY: Int): Boolean {
         val celpont = Point(ujX, ujY)

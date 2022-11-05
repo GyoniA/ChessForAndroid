@@ -256,6 +256,12 @@ class Jatek : Thread() {
         feherJonE = gameBackup.feherJonE
 
         jatekmod = gameBackup.jatekmod
+
+        feherOra.Szunet()
+        feherOra.isRunning = false
+        feketeOra.Szunet()
+        feketeOra.isRunning = false
+
         feherOra = Ora(true, gameBackup.feherOraIdeje, this)
         feketeOra = Ora(false, gameBackup.feherOraIdeje, this)
 

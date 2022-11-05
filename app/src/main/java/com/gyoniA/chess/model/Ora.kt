@@ -7,6 +7,7 @@ class Ora(private val feherE: Boolean, var ido: Int, j: Jatek) :
     Thread() {
     private var megyAzOra: Boolean
     private val jat: Jatek
+    var isRunning: Boolean = true
 
     init {
         jat = j
@@ -29,7 +30,7 @@ class Ora(private val feherE: Boolean, var ido: Int, j: Jatek) :
 
     override fun run() {
         var vanMegIdo = true
-        while (vanMegIdo) {
+        while (vanMegIdo && isRunning) {
             try {
                 if (megyAzOra) {
                     if (ido != 0) {
