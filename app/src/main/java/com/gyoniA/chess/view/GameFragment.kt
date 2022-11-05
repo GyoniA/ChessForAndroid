@@ -23,6 +23,7 @@ class GameFragment : Fragment() {
     private lateinit var binding : FragmentGameBinding
 
     lateinit var image: Bitmap
+    lateinit var filename: String
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,6 +48,11 @@ class GameFragment : Fragment() {
 
         binding.chessView.changeGameMode(arguments?.getInt("gameMode") ?: 0)
         (context as MainActivity).setDefaultGameMode(arguments?.getInt("gameMode") ?: 0)
+
+        filename = arguments?.getString("filename") ?: ""
+        if (filename != "") {
+            onLoadGame(filename)
+        }
 
         binding.chessView.whoseTurn = binding.textWhoseTurn
         binding.chessView.setWhiteTimeView(binding.textWhitesTime)
@@ -74,9 +80,9 @@ class GameFragment : Fragment() {
         binding.chessView.changeGameMode(i)
     }
 
-    fun onSaveGame() {
-        try {//TODO add file chooser
-            val outputStreamWriter = OutputStreamWriter(context?.openFileOutput("save1.txt", Context.MODE_PRIVATE))
+    fun onSaveGame(filename: String = "save1.txt") {
+        try {
+            val outputStreamWriter = OutputStreamWriter(context?.openFileOutput(filename, Context.MODE_PRIVATE))
             outputStreamWriter.write(binding.chessView.getSaveData())
             outputStreamWriter.close()
         } catch (e: IOException) {
@@ -84,9 +90,9 @@ class GameFragment : Fragment() {
         }
     }
 
-    fun onLoadGame() {
-        try {//TODO add file chooser
-            val inputStreamReader = InputStreamReader(context?.openFileInput("save1.txt"))
+    fun onLoadGame(filename: String = "save1.txt") {
+        try {
+            val inputStreamReader = InputStreamReader(context?.openFileInput(filename))
             val saveData = inputStreamReader.readText()
             inputStreamReader.close()
             binding.chessView.loadFromSaveData(saveData)

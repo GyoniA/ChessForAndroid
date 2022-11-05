@@ -1,13 +1,14 @@
 package com.gyoniA.chess
 
+import android.R
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.GyoniA.chess.R
 import com.GyoniA.chess.databinding.FragmentLoadGameBinding
+
 
 class LoadGameFragment : Fragment() {
     private lateinit var binding : FragmentLoadGameBinding
@@ -25,7 +26,13 @@ class LoadGameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonLoad.setOnClickListener {
-            findNavController().navigate(R.id.action_loadGameFragment_to_menuFragment)
+
+            //TODO load game
+            val filename = binding.textFileName.text.toString()
+            val bundle = Bundle()
+            bundle.putString("filename", filename)
+            findNavController().navigate(com.GyoniA.chess.R.id.action_loadGameFragment_to_menuFragment, bundle)
+            //findNavController().navigate(com.GyoniA.chess.R.id.action_loadGameFragment_to_menuFragment)
         }
     }
 }

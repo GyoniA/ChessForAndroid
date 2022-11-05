@@ -38,6 +38,9 @@
                 android:defaultValue="2"
                 app:argType="integer" />
         </action>
+        <argument
+            android:name="fileName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -86,6 +89,7 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:popExitAnim="@android:anim/slide_out_right">
+        </action>
     </fragment>
 </navigation>

@@ -25,13 +25,23 @@ class MenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonPvP.setOnClickListener {
-            findNavController().navigate(R.id.action_menuFragment_to_gameFragment0)
+            val bundle = Bundle()
+            bundle.putString("filename", arguments?.getString("filename"))
+            findNavController().navigate(R.id.action_menuFragment_to_gameFragment0, bundle)
+
+            //findNavController().navigate(R.id.action_menuFragment_to_gameFragment0)
         }
         binding.buttonPvAI.setOnClickListener {
-            findNavController().navigate(R.id.action_menuFragment_to_gameFragment1)
+            val bundle = Bundle()
+            bundle.putString("filename", arguments?.getString("filename"))
+            findNavController().navigate(R.id.action_menuFragment_to_gameFragment1, bundle)
+            //findNavController().navigate(R.id.action_menuFragment_to_gameFragment1)
         }
         binding.buttonAIvAI.setOnClickListener {
-            findNavController().navigate(R.id.action_menuFragment_to_gameFragment2)
+            val bundle = Bundle()
+            bundle.putString("filename", arguments?.getString("filename"))
+            findNavController().navigate(R.id.action_menuFragment_to_gameFragment2, bundle)
+            //findNavController().navigate(R.id.action_menuFragment_to_gameFragment2)
         }
     }
 }
