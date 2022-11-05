@@ -1,5 +1,7 @@
 package com.gyoniA.chess.model
 
+import android.graphics.Point
+
 class Bastya(i: Int, j: Int, b: Boolean, tabla: Tabla?, k: Int) :
     Babu(i, j, b, tabla!!, k) {
     override fun HovaLephet(): Boolean {

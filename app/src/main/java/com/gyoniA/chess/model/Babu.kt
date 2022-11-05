@@ -1,6 +1,15 @@
 package com.gyoniA.chess.model
 
+import android.graphics.Point
 import java.util.*
+
+
+fun Point.getX(): Int =  this.x
+fun Point.getY(): Int =  this.y
+fun Point.translate(dx: Int, dy: Int) {
+    this.x += dx
+    this.y += dy
+}
 
 abstract class Babu{
     @Transient var tab: Tabla
@@ -10,6 +19,7 @@ abstract class Babu{
     @Transient var lepesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
     @Transient var utesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
     var KepIndex: Int
+
 
     constructor(x: Int, y: Int, iFeherE: Boolean, tab: Tabla = Tabla(), k: Int){
         pozicio = Point(x, y)

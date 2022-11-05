@@ -1,5 +1,6 @@
 package com.gyoniA.chess.model
 
+import android.graphics.Point
 import java.util.*
 
 class Huszar(i: Int, j: Int, b: Boolean, tabla: Tabla?, k: Int) :

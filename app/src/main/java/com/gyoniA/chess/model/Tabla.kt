@@ -1,5 +1,6 @@
 package com.gyoniA.chess.model
 
+import android.graphics.Point
 import java.util.*
 
 class Tabla{

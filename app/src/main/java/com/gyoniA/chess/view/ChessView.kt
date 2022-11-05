@@ -1,10 +1,7 @@
 package com.gyoniA.chess.view
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -14,9 +11,9 @@ import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentManager
 import com.GyoniA.chess.R
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.gyoniA.chess.model.GameBackup
 import com.gyoniA.chess.model.Jatek
-import com.gyoniA.chess.model.Point
 import java.lang.Integer.min
 import kotlin.math.roundToInt
 
@@ -254,13 +251,15 @@ class ChessView : View {
 
     fun getSaveData(): String {
         //TODO implement save
-        val gson = Gson()
-        return gson.toJson(game.backupGame())
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        //val gson = Gson()//version with no indentation
+        return gson.toJson(game.backupGame(), GameBackup::class.java)
     }
 
     fun loadFromSaveData(data: String) {
         //TODO implement load
-        val gson = Gson()
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        //val gson = Gson()//version with no indentation
         game.restoreFromBackup(gson.fromJson(data, GameBackup::class.java))
         invalidate()
     }
