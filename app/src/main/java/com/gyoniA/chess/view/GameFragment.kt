@@ -88,8 +88,8 @@ class GameFragment : Fragment() {
         try {//TODO add file chooser
             val inputStreamReader = InputStreamReader(context?.openFileInput("save1.txt"))
             val saveData = inputStreamReader.readText()
-            binding.chessView.loadFromSaveData(saveData)
             inputStreamReader.close()
+            binding.chessView.loadFromSaveData(saveData)
         } catch (e: IOException) {
             Log.e("Exception", "File read failed: $e")
         }

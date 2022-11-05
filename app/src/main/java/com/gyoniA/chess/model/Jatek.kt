@@ -12,7 +12,6 @@ class Jatek : Thread() {
 
     @Volatile
     var feherJonE = true
-    private var feherJonEBackup = true
 
     @Volatile
     var jatekmod = 0
@@ -227,8 +226,7 @@ class Jatek : Thread() {
     }
 
     fun backupGame(): GameBackup{
-        return GameBackup(view,
-        tab,
+        return GameBackup(tab,
 
         kivalasztott,
 
@@ -236,15 +234,12 @@ class Jatek : Thread() {
 
         jatekmod,
         feherOra.ido,
-        whiteTV,
         feketeOra.ido,
-        blackTV,
 
         megyAJatek)
     }
 
     fun restoreFromBackup(gameBackup: GameBackup){
-        view = gameBackup.view
         tab = gameBackup.tab
 
         kivalasztott = gameBackup.kivalasztott
@@ -253,12 +248,31 @@ class Jatek : Thread() {
 
         jatekmod = gameBackup.jatekmod
         feherOra = Ora(true, gameBackup.feherOraIdeje, this)
-        whiteTV = gameBackup.whiteTV
         feketeOra = Ora(false, gameBackup.feherOraIdeje, this)
-        blackTV = gameBackup.blackTV
+
+        feherOra.start()
+        feketeOra.start()
 
         megyAJatek = gameBackup.megyAJatek
         rob1 = RobotJatekos(true, tab!!)
         rob2 = RobotJatekos(false, tab!!)
+
+        for (b in tab!!.feherBabuk.values) {
+            b.tab = tab!!
+        }
+        for (b in tab!!.feketeBabuk.values) {
+            b.tab = tab!!
+        }
+
+        tab!!.feherKiraly?.tab = tab!!
+        tab!!.feketeKiraly?.tab = tab!!
+
+        if (feherJonE) {
+            feherOra.Indit()
+            feketeOra.Szunet()
+        } else {
+            feketeOra.Indit()
+            feherOra.Szunet()
+        }
     }
 }

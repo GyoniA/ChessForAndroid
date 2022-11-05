@@ -1,12 +1,8 @@
 package com.gyoniA.chess.model
 
-import java.io.IOException
-import java.io.ObjectInputStream
-import java.io.Serializable
 import java.util.*
 
-
-class Tabla() : Serializable {
+class Tabla{
     var feherBabuk = HashMap<Point, Babu>()
     var feketeBabuk = HashMap<Point, Babu>()
     var feherKiraly: Kiraly? = null
@@ -173,14 +169,5 @@ class Tabla() : Serializable {
             }
         }
         return 2 //dontetlen
-    }
-
-    @Throws(ClassNotFoundException::class, IOException::class)
-    private fun readObject(aInputStream: ObjectInputStream) {
-        aInputStream.defaultReadObject()
-    }
-
-    companion object {
-        private const val serialVersionUID = 1L
     }
 }

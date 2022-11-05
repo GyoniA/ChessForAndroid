@@ -28,11 +28,15 @@
         </action>
         <action
             android:id="@+id/action_menuFragment_to_gameFragment2"
-            app:destination="@id/gameFragment">
+            app:destination="@id/gameFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right">
             <argument
                 android:name="gameMode"
-                app:argType="integer"
-                android:defaultValue="2"/>
+                android:defaultValue="2"
+                app:argType="integer" />
         </action>
     </fragment>
     <fragment
@@ -41,7 +45,11 @@
         android:label="GameFragment" >
         <action
             android:id="@+id/action_gameFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
+            app:destination="@id/menuFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <argument
             android:name="gameMode"
             app:argType="integer"
@@ -54,10 +62,18 @@
         tools:layout="@layout/fragment_start_menu" >
         <action
             android:id="@+id/action_startMenuFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
+            app:destination="@id/menuFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_startMenuFragment_to_loadGameFragment"
-            app:destination="@id/loadGameFragment" />
+            app:destination="@id/loadGameFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/loadGameFragment"
@@ -66,6 +82,10 @@
         tools:layout="@layout/fragment_load_game" >
         <action
             android:id="@+id/action_loadGameFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
+            app:destination="@id/menuFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 </navigation>

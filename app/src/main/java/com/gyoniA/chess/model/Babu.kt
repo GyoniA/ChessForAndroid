@@ -1,21 +1,21 @@
 package com.gyoniA.chess.model
 
-import java.io.Serializable
 import java.util.*
 
-abstract class Babu(x: Int, y: Int, iFeherE: Boolean, protected var tab: Tabla, k: Int) :
-    Serializable {
+abstract class Babu{
+    @Transient var tab: Tabla
     var pozicio: Point
     var feherE: Boolean
     var lepettEMar = false
-    var lepesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
-    var utesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
+    @Transient var lepesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
+    @Transient var utesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
     var KepIndex: Int
 
-    init {
+    constructor(x: Int, y: Int, iFeherE: Boolean, tab: Tabla = Tabla(), k: Int){
         pozicio = Point(x, y)
         feherE = iFeherE
         KepIndex = k
+        this.tab = tab
     }
 
     fun GetFeherE(): Boolean {
