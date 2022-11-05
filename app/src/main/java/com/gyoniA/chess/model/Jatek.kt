@@ -88,54 +88,6 @@ class Jatek : Thread() {
         }
         view?.invalidate()
     }
-//TODO change to menu item
-
-/* private inner class MenuActionListener : java.awt.event.ActionListener {
-     fun actionPerformed(e: java.awt.event.ActionEvent) {
-         val command: String = e.getActionCommand()
-         val filenev = "sakk.ser"
-         if (command == "Mentes") {
-             val out: ObjectOutputStream
-             try {
-                 out = ObjectOutputStream(FileOutputStream(filenev))
-                 out.writeObject(tab)
-                 feherJonEBackup = feherJonE
-                 feherOra!!.IdoMentes()
-                 feketeOra!!.IdoMentes()
-                 out.close()
-             } catch (e1: FileNotFoundException) {
-                 e1.printStackTrace()
-             } catch (e2: IOException) {
-                 e2.printStackTrace()
-             }
-         } else if (command == "Visszatoltes") {
-             val `in`: ObjectInputStream
-             try {
-                 `in` = ObjectInputStream(FileInputStream(filenev))
-                 tab = `in`.readObject() as Tabla
-                 rob1!!.SetTabla(tab!!)
-                 rob2!!.SetTabla(tab!!)
-                 feherJonE = feherJonEBackup
-                 feherOra!!.IdoVisszaallitas()
-                 feketeOra!!.IdoVisszaallitas()
-                 if (feherJonE) {
-                     kijon = "A feh�r j�t�kos j�n"
-                 } else {
-                     kijon = "A fekete j�t�kos j�n"
-                 }
-                 tb.repaint()
-                 `in`.close()
-             } catch (e1: FileNotFoundException) {
-                 e1.printStackTrace()
-             } catch (e2: IOException) {
-                 e2.printStackTrace()
-             } catch (e3: ClassNotFoundException) {
-                 e3.printStackTrace()
-             }
-         }
-     }
- }*/
-
  override fun run() {
      rob1 = RobotJatekos(true, tab!!)
      rob2 = RobotJatekos(false, tab!!)

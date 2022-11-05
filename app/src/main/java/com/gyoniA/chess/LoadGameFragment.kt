@@ -26,8 +26,6 @@ class LoadGameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonLoad.setOnClickListener {
-
-            //TODO load game
             val filename = binding.textFileName.text.toString()
             val bundle = Bundle()
             bundle.putString("filename", filename)

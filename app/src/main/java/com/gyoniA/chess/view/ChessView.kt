@@ -250,14 +250,12 @@ class ChessView : View {
     }
 
     fun getSaveData(): String {
-        //TODO implement save
         val gson = GsonBuilder().setPrettyPrinting().create()
         //val gson = Gson()//version with no indentation
         return gson.toJson(game.backupGame(), GameBackup::class.java)
     }
 
     fun loadFromSaveData(data: String) {
-        //TODO implement load
         val gson = GsonBuilder().setPrettyPrinting().create()
         //val gson = Gson()//version with no indentation
         game.restoreFromBackup(gson.fromJson(data, GameBackup::class.java))

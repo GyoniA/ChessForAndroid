@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Chess</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="whitePlayersTime">White Players Time: %d s</string>
     <string name="blackPlayersTime">Black Players Time: %d s</string>
     <string name="whitePlayersTurn">It\'s White Player\'s turn</string>
@@ -11,7 +10,6 @@
     <string name="AIvAI">AI vs AI</string>
     <string name="save">Save</string>
     <string name="load">Load</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="chess">Chess</string>
     <string name="start_new_game">Start New Game</string>
