@@ -178,22 +178,78 @@ class Jatek : Thread() {
         blackTV = blackTime
     }
 
+    fun convertPointToIndex(point: Point): Int {
+        return point.x * 1000 + point.y
+    }
+
+    fun convertPointMapToIntMap(map: HashMap<Point, Babu>): HashMap<Int, Babu> {
+        val intMap = HashMap<Int, Babu>()
+        for (key in map.keys) {
+            intMap[convertPointToIndex(key)] = map[key]!!
+        }
+        return intMap
+    }
+
+    fun convertPointMapToStringMap(map: HashMap<Point, Babu>): HashMap<String, Babu> {
+        val stringMap = HashMap<String, Babu>()
+        for (key in map.keys) {
+            stringMap[key.toString()] = map[key]!!
+        }
+        return stringMap
+    }
+
+    fun convertIntMapToPointMap(map: HashMap<Int, Babu>): HashMap<Point, Babu> {
+        val pointMap = HashMap<Point, Babu>()
+        for (key in map.keys) {
+            pointMap[Point(key / 1000, key % 1000)] = map[key]!!
+        }
+        return pointMap
+    }
+
+    fun convertStringToPoint(key: String): Point {
+        val data = key?.substringAfter("(", "")?.substringBefore(")", "")
+        val coordinates = data?.split(",")
+        val x = coordinates!![0].trim().toInt()
+        val y = coordinates!![1].trim().toInt()
+        return Point(x, y)
+    }
+
+    fun convertStringMapToPointMap(map: HashMap<String, Babu>): HashMap<Point, Babu> {
+        val pointMap = HashMap<Point, Babu>()
+        for (key in map.keys) {
+            pointMap[convertStringToPoint(key)] = map[key]!!
+        }
+        return pointMap
+    }
+
     fun backupGame(): GameBackup{
-        return GameBackup(tab,
+        return GameBackup(
+            //tab?.let { convertPointMapToStringMap(it.feherBabuk) }!!,
+            //tab?.let { convertPointMapToStringMap(it.feketeBabuk) }!!,
+            tab?.let { convertPointMapToIntMap(it.feherBabuk) }!!,
+            tab?.let { convertPointMapToIntMap(it.feketeBabuk) }!!,
+            tab?.feherKiraly,
+            tab?.feketeKiraly,
 
-        kivalasztott,
+            kivalasztott,
 
-        feherJonE,
+            feherJonE,
 
-        jatekmod,
-        feherOra.ido,
-        feketeOra.ido,
+            jatekmod,
+            feherOra.ido,
+            feketeOra.ido,
 
-        megyAJatek)
+            megyAJatek)
     }
 
     fun restoreFromBackup(gameBackup: GameBackup){
-        tab = gameBackup.tab
+        tab = Tabla()
+        //tab!!.feherBabuk = convertStringMapToPointMap(gameBackup.feherBabuk)
+        //tab!!.feketeBabuk = convertStringMapToPointMap(gameBackup.feketeBabuk)
+        tab!!.feherBabuk = convertIntMapToPointMap(gameBackup.feherBabuk)
+        tab!!.feketeBabuk = convertIntMapToPointMap(gameBackup.feketeBabuk)
+        tab!!.feherKiraly = gameBackup.feherKiraly
+        tab!!.feketeKiraly = gameBackup.feketeKiraly
 
         kivalasztott = gameBackup.kivalasztott
 

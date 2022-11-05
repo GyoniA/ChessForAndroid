@@ -66,15 +66,18 @@ class GameFragment : Fragment() {
     fun endGame(result: Int){
         when (result) {
             -1 -> {
-                Toast.makeText(context, "Black won!", Toast.LENGTH_SHORT).show()}
+                runUIOperation { Toast.makeText(context, "Black won!", Toast.LENGTH_SHORT).show() }
+            }
 
             0 -> {
-                Toast.makeText(context, "Draw!", Toast.LENGTH_SHORT).show()}
+                runUIOperation { Toast.makeText(context, "Draw!", Toast.LENGTH_SHORT).show() }
+            }
 
             1 -> {
-                Toast.makeText(context, "White won!", Toast.LENGTH_SHORT).show()}
+                runUIOperation { Toast.makeText(context, "White won!", Toast.LENGTH_SHORT).show() }
+            }
         }
-        findNavController().navigate(R.id.action_gameFragment_to_menuFragment)
+        runUIOperation { findNavController().navigate(R.id.action_gameFragment_to_menuFragment) }
     }
 
     fun onGameModeChanged(i: Int) {

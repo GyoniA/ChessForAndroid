@@ -1,10 +1,15 @@
 package com.gyoniA.chess.model
 
 import android.graphics.Point
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import java.util.*
 
+
 class Tabla{
+
+    //@JsonDeserialize(using = PointBabuDeserializer.class)
     var feherBabuk = HashMap<Point, Babu>()
+    //@JsonDeserialize(using = PointBabuDeserializer.class)
     var feketeBabuk = HashMap<Point, Babu>()
     var feherKiraly: Kiraly? = null
     var feketeKiraly: Kiraly? = null

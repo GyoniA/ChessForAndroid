@@ -1,6 +1,9 @@
 package com.gyoniA.chess.model
 
 import android.graphics.Point
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import java.util.*
 
 
@@ -11,15 +14,23 @@ fun Point.translate(dx: Int, dy: Int) {
     this.y += dy
 }
 
+@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
 abstract class Babu{
-    @Transient var tab: Tabla
+
+    @Transient @JsonIgnore var tab: Tabla
     var pozicio: Point
     var feherE: Boolean
     var lepettEMar = false
-    @Transient var lepesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
-    @Transient var utesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
+    @Transient @JsonIgnore var lepesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
+    @Transient @JsonIgnore var utesiLehetosegek: LinkedList<Point> = LinkedList<Point>()
     var KepIndex: Int
 
+    constructor() {
+        this.pozicio = Point(0, 0)
+        this.feherE = true
+        this.tab = Tabla()
+        this.KepIndex = 0
+    }
 
     constructor(x: Int, y: Int, iFeherE: Boolean, tab: Tabla = Tabla(), k: Int){
         pozicio = Point(x, y)

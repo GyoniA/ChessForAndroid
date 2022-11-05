@@ -10,10 +10,15 @@ import androidx.core.view.doOnAttach
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentManager
 import com.GyoniA.chess.R
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.databind.KeyDeserializer
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.gyoniA.chess.model.GameBackup
 import com.gyoniA.chess.model.Jatek
+import java.io.IOException
 import java.lang.Integer.min
 import kotlin.math.roundToInt
 
@@ -250,15 +255,48 @@ class ChessView : View {
     }
 
     fun getSaveData(): String {
+        val mapper = jacksonObjectMapper()
+        return mapper.writeValueAsString(game.backupGame())
+
+
+/*
         val gson = GsonBuilder().setPrettyPrinting().create()
         //val gson = Gson()//version with no indentation
-        return gson.toJson(game.backupGame(), GameBackup::class.java)
+        return gson.toJson(game.backupGame(), GameBackup::class.java)*/
     }
 
     fun loadFromSaveData(data: String) {
+        val mapper = jacksonObjectMapper()
+
+        val simpleModule = SimpleModule()
+        simpleModule.addKeyDeserializer(Point::class.java, PointDeserializer())
+        mapper.registerModule(simpleModule)
+        val backupFromJson = mapper.readValue(data, GameBackup::class.java)
+        game.restoreFromBackup(backupFromJson)
+        invalidate()
+
+/*
         val gson = GsonBuilder().setPrettyPrinting().create()
         //val gson = Gson()//version with no indentation
         game.restoreFromBackup(gson.fromJson(data, GameBackup::class.java))
-        invalidate()
+        invalidate()*/
+    }
+
+    class PointDeserializer : KeyDeserializer() {
+
+        private val MAPPER = ObjectMapper()
+
+        @Throws(IOException::class, JsonProcessingException::class)
+        override fun deserializeKey(key: String?, ctxt: DeserializationContext?): Any? {
+
+            return MAPPER.readValue(key, Point::class.java)
+            /*
+
+            val data = key?.substringAfter("(", "")?.substringBefore(")", "")
+            val coordinates = data?.split(",")
+            val x = coordinates!![0].toInt()
+            val y = coordinates!![1].toInt()
+            return Point(x, y)// replace null with your logic*/
+        }
     }
 }
