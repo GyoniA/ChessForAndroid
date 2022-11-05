@@ -1,13 +1,14 @@
 package com.gyoniA.chess.view
 
-import android.R.attr.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -81,23 +82,73 @@ class GameFragment : Fragment() {
     }
 
     fun onSaveGame(filename: String = "save1.txt") {
-        try {
-            val outputStreamWriter = OutputStreamWriter(context?.openFileOutput(filename, Context.MODE_PRIVATE))
-            outputStreamWriter.write(binding.chessView.getSaveData())
-            outputStreamWriter.close()
-        } catch (e: IOException) {
-            Log.e("Exception", "File write failed: $e")
+        var actualFilename = filename
+        if (filename == "save1.txt") {
+            Toast.makeText(context, "Please enter a filename", Toast.LENGTH_SHORT).show()
+            val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("FileName")
+
+            val input = EditText(context)
+            builder.setView(input)
+
+            builder.setPositiveButton("OK") { dialog, which -> run {
+                actualFilename = input.text.toString()
+                try {
+                    val outputStreamWriter = OutputStreamWriter(context?.openFileOutput(actualFilename, Context.MODE_PRIVATE))
+                    outputStreamWriter.write(binding.chessView.getSaveData())
+                    outputStreamWriter.close()
+                } catch (e: IOException) {
+                    Log.e("Exception", "File write failed: $e")
+                }
+            } }
+            builder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
+
+            builder.show()
+        } else {
+            try {
+                val outputStreamWriter = OutputStreamWriter(context?.openFileOutput(actualFilename, Context.MODE_PRIVATE))
+                outputStreamWriter.write(binding.chessView.getSaveData())
+                outputStreamWriter.close()
+            } catch (e: IOException) {
+                Log.e("Exception", "File write failed: $e")
+            }
         }
+
     }
 
     fun onLoadGame(filename: String = "save1.txt") {
-        try {
-            val inputStreamReader = InputStreamReader(context?.openFileInput(filename))
-            val saveData = inputStreamReader.readText()
-            inputStreamReader.close()
-            binding.chessView.loadFromSaveData(saveData)
-        } catch (e: IOException) {
-            Log.e("Exception", "File read failed: $e")
+        var actualFilename = filename
+        if (filename == "save1.txt") {
+            Toast.makeText(context, "Please enter a filename", Toast.LENGTH_SHORT).show()
+            val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("FileName")
+
+            val input = EditText(context)
+            builder.setView(input)
+
+            builder.setPositiveButton("OK") { dialog, which -> run {
+                actualFilename = input.text.toString()
+                try {
+                    val inputStreamReader = InputStreamReader(context?.openFileInput(actualFilename))
+                    val saveData = inputStreamReader.readText()
+                    inputStreamReader.close()
+                    binding.chessView.loadFromSaveData(saveData)
+                } catch (e: IOException) {
+                    Log.e("Exception", "File read failed: $e")
+                }
+            } }
+            builder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
+
+            builder.show()
+        } else {
+            try {
+                val inputStreamReader = InputStreamReader(context?.openFileInput(actualFilename))
+                val saveData = inputStreamReader.readText()
+                inputStreamReader.close()
+                binding.chessView.loadFromSaveData(saveData)
+            } catch (e: IOException) {
+                Log.e("Exception", "File read failed: $e")
+            }
         }
     }
 
