@@ -145,6 +145,9 @@ class ChessView : View {
         var top: Float //y coord of top left corner
 
         game.kivalasztott?.HovaLephet()
+        if (game.kivalasztott != null) {
+            game.tab?.LepesLegalizalas(game.kivalasztott!!)
+        }
 
         for (i in 0..7) {
             for (j in 0..7) {

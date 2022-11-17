@@ -46,8 +46,10 @@ class Jatek : Thread() {
     }
 
     fun onTouch(tX: Int, tY: Int) {
+        //TODO add tab.lepesLegalizalas check
         if (kivalasztott != null) {
             kivalasztott!!.HovaLephet()
+            tab!!.LepesLegalizalas(kivalasztott!!)
             if (kivalasztott!!.Lepes(tX, tY)) {
                 feherJonE = !feherJonE
                 if (feherJonE) {
@@ -85,6 +87,9 @@ class Jatek : Thread() {
             ) {
                 kivalasztott = null
             }
+            if (kivalasztott != null) {
+                tab!!.LepesLegalizalas(kivalasztott!!)
+            }
         }
         view?.invalidate()
     }
@@ -118,8 +123,8 @@ class Jatek : Thread() {
                          feherOra.Indit()
                          feketeOra.Szunet()
                          view?.invalidate()
-                         view?.checkEndGame()
                      }
+                     view?.checkEndGame()
                      VegeVanMar()
                  }
              }
