@@ -46,7 +46,6 @@ class Jatek : Thread() {
     }
 
     fun onTouch(tX: Int, tY: Int) {
-        //TODO add tab.lepesLegalizalas check
         if (kivalasztott != null) {
             kivalasztott!!.HovaLephet()
             tab!!.LepesLegalizalas(kivalasztott!!)
